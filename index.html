@@ -288,9 +288,12 @@ function renderWizardStep(){
 }
 function radioCard(id, label, field, current){
   const sel = current === id ? ' selected' : '';
-  return '<label class="radio-card'+sel+'" onclick="wizardSelect(\''+field+'\',\''+id+'\')"><input type="radio" name="'+field+'" value="'+id+'"'+(current===id?' checked':'')+' aria-label="'+label.replace(/"/g,'&quot;')+'">'+label+'</label>';
+  return '<label class="radio-card'+sel+'" onclick="wizardSelect(\''+field+'\',\''+id+'\',event)"><input type="radio" name="'+field+'" value="'+id+'"'+(current===id?' checked':'')+' aria-label="'+label.replace(/"/g,'&quot;')+'">'+label+'</label>';
 }
-window.wizardSelect = function(field, value){
+window.wizardSelect = function(field, value, e){
+  // Prevent double-fire: clicking a <label> wrapping an <input> triggers onclick twice
+  // (once for the label click, once for the synthetic click on the input that bubbles up).
+  if(e && e.target && e.target.tagName === 'INPUT') return;
   wizardState[field] = value;
   // Auto-advance after short delay
   setTimeout(function(){
