@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HangRight — Which Wall Anchor Do I Need? Free Interactive Tool</title>
+<meta name="description" content="Find the right wall anchor in 30 seconds. Answer 4 questions about your wall type, what you're hanging, and the weight — get a specific fastener recommendation with buy links.">
+<meta name="keywords" content="wall anchor selector, drywall anchor guide, which wall anchor do I need, toggle bolt vs molly bolt, how to hang heavy mirror, TV mount anchor, best drywall anchor for heavy items, wall fastener tool">
+<link rel="canonical" href="https://sillymodes.github.io/hangright">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta property="og:title" content="HangRight — Which Wall Anchor Do I Need?">
+<meta property="og:description" content="Free interactive tool. Answer 4 questions, get the exact wall anchor you need with buy links.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sillymodes.github.io/hangright">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"HangRight","url":"https://sillymodes.github.io/hangright","description":"Interactive wall anchor and fastener selector for homeowners","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much weight can drywall hold without an anchor?","acceptedAnswer":{"@type":"Answer","text":"About 5\u201310 lbs with a nail alone. A small picture frame on a nail is fine, but anything heavier needs a proper anchor or \u2014 even better \u2014 a screw driven into a wall stud."}},{"@type":"Question","name":"What\u2019s the difference between a toggle bolt and a molly bolt?","acceptedAnswer":{"@type":"Answer","text":"Toggle bolts use spring-loaded wings that open behind the wall and grip a large area \u2014 they\u2019re the strongest option for hollow walls. Molly bolts use a metal sleeve that expands as you tighten the screw. They\u2019re medium strength but reusable: you can remove and reinsert the screw without losing the anchor."}},{"@type":"Question","name":"Can I use plastic anchors for a TV mount?","acceptedAnswer":{"@type":"Answer","text":"No. TVs create significant leverage force because the weight sits far from the wall. Plastic anchors can pull out. Use snap toggle bolts rated for the weight, or mount directly into wall studs with lag bolts."}},{"@type":"Question","name":"How do I know what kind of wall I have?","acceptedAnswer":{"@type":"Answer","text":"Knock on the wall: a hollow sound means drywall, a solid sound suggests plaster or masonry. Homes built before 1950 often have plaster and lath. You can also push a thumbtack in \u2014 it slides into drywall easily but won\u2019t penetrate plaster or concrete."}},{"@type":"Question","name":"What size drill bit do I need for a drywall anchor?","acceptedAnswer":{"@type":"Answer","text":"Check the anchor packaging \u2014 it lists the recommended bit size. Generally the bit should match the anchor body diameter (not the screw). Self-drilling anchors need no pre-drilling."}}]}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--primary:#E8713A;--primary-hover:#D4652F;--text:#2D3436;--light-text:#636E72;
+--bg:#FFFFFF;--bg-alt:#F8F9FA;--border:#E0E0E0;--success:#27AE60;--warning:#F39C12;
+--star:#F1C40F;--radius:8px;--radius-lg:12px;--shadow:0 2px 8px rgba(0,0,0,0.08);
+--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--primary);text-decoration:none}
+a:hover{color:var(--primary-hover)}
+.site-header{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header-inner{max-width:960px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.25rem;font-weight:700;color:var(--text)}
+.logo svg{flex-shrink:0}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center}
+.nav-links a{padding:8px 12px;border-radius:var(--radius);font-size:.9rem;font-weight:500;color:var(--text);transition:background .2s}
+.nav-links a:hover,.nav-links a.active{background:var(--bg-alt);color:var(--primary)}
+.nav-links .coffee-link{color:var(--primary);font-weight:600}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+.hamburger svg{display:block}
+@media(max-width:767px){
+.nav-links{display:none;position:absolute;top:56px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);flex-direction:column;padding:8px 16px;box-shadow:var(--shadow)}
+.nav-links.open{display:flex}
+.hamburger{display:flex}
+}
+main{flex:1;max-width:960px;margin:0 auto;padding:24px 16px;width:100%}
+.site-footer{background:var(--bg-alt);border-top:1px solid var(--border);padding:24px 16px;text-align:center;font-size:.8rem;color:var(--light-text)}
+.site-footer p{max-width:960px;margin:0 auto}
+.wizard{max-width:640px;margin:0 auto}
+.wizard-progress{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:.85rem;color:var(--light-text)}
+.progress-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .3s ease}
+.wizard-step{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-title{font-size:1.25rem;font-weight:700;margin-bottom:16px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.radio-card{position:relative;border:2px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:all .2s;min-height:56px;display:flex;align-items:center;font-size:.95rem;font-weight:500;background:var(--bg);user-select:none}
+.radio-card:hover{border-color:var(--primary);box-shadow:0 4px 12px rgba(0,0,0,0.1);transform:translateY(-1px)}
+.radio-card.selected{border-color:var(--primary);background:rgba(232,113,58,0.08)}
+.radio-card input{position:absolute;opacity:0;width:0;height:0}
+.wizard-nav{display:flex;gap:12px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:var(--radius);font-size:.95rem;font-weight:600;border:none;cursor:pointer;min-height:44px;min-width:44px;transition:all .2s;text-decoration:none}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover);color:#fff}
+.btn-secondary{background:transparent;color:var(--text);border:2px solid var(--border)}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.btn-sm{padding:8px 16px;font-size:.85rem}
+.result-card{background:var(--bg);border:2px solid var(--primary);border-radius:var(--radius-lg);padding:24px;margin-bottom:24px}
+.result-card h2{color:var(--primary);margin-bottom:8px}
+.result-reason{color:var(--light-text);margin-bottom:16px;font-style:italic}
+.result-section{margin-bottom:16px}
+.result-section h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+.result-section ul,.result-section ol{padding-left:20px}
+.result-section li{margin-bottom:4px}
+.buy-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.buy-links a{flex:1;min-width:140px;text-align:center}
+.result-note{background:rgba(243,156,18,0.1);border-left:3px solid var(--warning);padding:12px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.9rem}
+.result-warning{background:rgba(231,76,60,0.1);border-left:3px solid #E74C3C;padding:12px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.9rem}
+.affiliate-note{font-size:.8rem;color:var(--light-text);margin-top:16px;font-style:italic}
+.expandable{margin-top:8px}
+.expand-toggle{background:none;border:none;color:var(--primary);cursor:pointer;font-size:.85rem;font-weight:600;padding:4px 0;display:flex;align-items:center;gap:4px}
+.expand-toggle svg{transition:transform .2s}
+.expand-toggle.open svg{transform:rotate(90deg)}
+.expand-content{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.85rem;color:var(--light-text)}
+.expand-content.open{max-height:200px}
+.expand-inner{padding:8px 0}
+.faq-section{margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{width:100%;background:none;border:none;padding:16px 0;text-align:left;font-size:1rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--text);min-height:44px;font-family:var(--font)}
+.faq-question svg{flex-shrink:0;transition:transform .2s}
+.faq-question.open svg{transform:rotate(180deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-answer.open{max-height:300px}
+.faq-answer p{padding:0 0 16px;color:var(--light-text);line-height:1.7}
+.reviews-header{text-align:center;margin-bottom:32px}
+.avg-rating{font-size:2.5rem;font-weight:700}
+.stars-display{color:var(--star);font-size:1.5rem;letter-spacing:2px}
+.review-count{color:var(--light-text);font-size:.9rem}
+.review-list{display:flex;flex-direction:column;gap:16px;margin-bottom:40px}
+.review-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.review-card .stars{color:var(--star);margin-bottom:4px}
+.review-card .nickname{font-weight:700;margin-bottom:4px}
+.review-card .comment{color:var(--light-text);margin-bottom:8px}
+.review-card .time{font-size:.8rem;color:var(--light-text)}
+.empty-state{text-align:center;padding:40px;color:var(--light-text);font-size:1.1rem}
+.review-form{background:var(--bg-alt);border-radius:var(--radius-lg);padding:24px;max-width:500px;margin:0 auto}
+.review-form h3{margin-bottom:16px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-weight:600;margin-bottom:4px;font-size:.9rem}
+.form-group input,.form-group textarea{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:var(--radius);font-size:.95rem;font-family:var(--font);transition:border-color .2s}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary)}
+.form-group textarea{resize:vertical;min-height:80px}
+.star-selector{display:flex;gap:4px;cursor:pointer}
+.star-selector .star{font-size:1.75rem;color:var(--border);transition:color .15s;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;user-select:none}
+.star-selector .star.hovered,.star-selector .star.selected{color:var(--star)}
+.form-msg{margin-top:12px;padding:8px 12px;border-radius:var(--radius);font-size:.9rem}
+.form-msg.success{background:rgba(39,174,96,0.1);color:var(--success)}
+.form-msg.error{background:rgba(231,76,60,0.1);color:#E74C3C}
+.about-section{margin-bottom:32px}
+.about-section h2{margin-bottom:12px;font-size:1.25rem}
+.about-section p{color:var(--light-text);line-height:1.8}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow)}
+.stat-card .stat-num{font-size:2rem;font-weight:700;color:var(--primary)}
+.stat-card .stat-label{font-size:.85rem;color:var(--light-text)}
+.chart-container{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:24px;box-shadow:var(--shadow)}
+.chart-container h3{margin-bottom:16px;font-size:1rem}
+.chart-container svg{width:100%;height:auto;display:block}
+.ranked-list{list-style:none;margin-bottom:24px}
+.ranked-list li{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.9rem}
+.ranked-list .rank-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.ranked-list .rank-fill{height:100%;background:var(--primary);border-radius:4px}
+.ranked-list .rank-count{color:var(--light-text);font-size:.8rem;min-width:40px;text-align:right}
+.loading{text-align:center;padding:40px;color:var(--light-text)}
+</style>
+</head>
+<body>
+<header class="site-header">
+<div class="header-inner">
+  <a href="#home" class="logo" aria-label="HangRight Home">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="13" stroke="#E8713A" stroke-width="2"/><rect x="12" y="6" width="4" height="10" rx="1" fill="#E8713A"/><rect x="11" y="16" width="6" height="2" rx="1" fill="#E8713A"/><line x1="14" y1="18" x2="14" y2="23" stroke="#E8713A" stroke-width="2" stroke-linecap="round"/></svg>
+    HangRight
+  </a>
+  <button class="hamburger" aria-label="Open menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2D3436" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <nav>
+    <ul class="nav-links" role="menubar">
+      <li><a href="#home" role="menuitem" data-nav="home">Home</a></li>
+      <li><a href="#reviews" role="menuitem" data-nav="reviews">Reviews</a></li>
+      <li><a href="#about" role="menuitem" data-nav="about">About</a></li>
+      <li><a href="#stats" role="menuitem" data-nav="stats">Stats</a></li>
+      <li><a href="https://buymeacoffee.com/timtian" target="_blank" rel="noopener" class="coffee-link" role="menuitem">&#9749; Buy Me a Coffee</a></li>
+    </ul>
+  </nav>
+</div>
+</header>
+<main id="app" role="main">
+</main>
+<footer class="site-footer">
+<p>&copy; 2026 HangRight. All rights reserved.</p>
+<p style="margin-top:4px">Product links are affiliate links &mdash; we may earn a small commission at no extra cost to you.</p>
+</footer>
+<script>
+(function(){
+'use strict';
+const WORKER_URL = 'https://hangright-api.sillymodes.workers.dev';
+const AMAZON_TAG = 'hangright-20'; // TODO: replace with actual Amazon Associate tag when approved
+const app = document.getElementById('app');
+let currentPage = '';
+function route(){
+  const hash = (location.hash || '#home').slice(1);
+  if(hash === currentPage) return;
+  currentPage = hash;
+  document.querySelector('.nav-links').classList.remove('open');
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    a.classList.toggle('active', a.dataset.nav === hash);
+  });
+  trackPageview(hash);
+  switch(hash){
+    case 'reviews': renderReviews(); break;
+    case 'about': renderAbout(); break;
+    case 'stats': renderStats(); break;
+    default: renderHome(); break;
+  }
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', route);
+window.addEventListener('DOMContentLoaded', route);
+function trackPageview(path){
+  try{
+    fetch(WORKER_URL+'/api/pageview',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({path:'/'+path, referrer:document.referrer, user_agent:navigator.userAgent})
+    }).catch(()=>{});
+  }catch(e){}
+}
+let wizardState = {step:1, wallType:'', item:'', weight:'', stud:''};
+const wallTypes = [
+  {id:'drywall_standard', label:'Drywall (\u00bd\u2033 standard)'},
+  {id:'drywall_fire', label:'Drywall (\u215d\u2033 fire-rated)'},
+  {id:'plaster', label:'Plaster & lath'},
+  {id:'concrete', label:'Concrete / brick / stone'},
+  {id:'hollow_door', label:'Hollow-core door'},
+  {id:'tile', label:'Tile over drywall'},
+  {id:'wood_panel', label:'Wood paneling'}
+];
+const hangItems = [
+  {id:'picture_frame', label:'Picture frame / small art'},
+  {id:'heavy_mirror', label:'Heavy mirror'},
+  {id:'floating_shelf', label:'Floating shelf'},
+  {id:'tv_mount', label:'TV mount'},
+  {id:'curtain_rod', label:'Curtain rod / blinds'},
+  {id:'towel_bar', label:'Towel bar / bathroom fixture'},
+  {id:'coat_hook', label:'Coat hook / small fixture'},
+  {id:'smoke_detector', label:'Smoke detector / thermostat'},
+  {id:'cabinet', label:'Cabinet / heavy furniture'}
+];
+const weightClasses = [
+  {id:'light', label:'Light: under 10 lbs'},
+  {id:'medium', label:'Medium: 10\u201330 lbs'},
+  {id:'heavy', label:'Heavy: 30\u201375 lbs'},
+  {id:'very_heavy', label:'Very heavy: 75+ lbs'}
+];
+const studOptions = [
+  {id:'yes', label:'Yes, I found a stud'},
+  {id:'no', label:'No stud available'},
+  {id:'not_sure', label:'Not sure'}
+];
+function skipStudQuestion(){
+  return wizardState.wallType === 'concrete' || wizardState.wallType === 'hollow_door';
+}
+function totalSteps(){
+  return skipStudQuestion() ? 3 : 4;
+}
+function renderHome(){
+  wizardState = {step:1, wallType:'', item:'', weight:'', stud:''};
+  app.innerHTML = '<h1 style="font-size:1.5rem;text-align:center;margin-bottom:8px">Which Wall Anchor Do I Need?</h1>'+
+    '<p style="text-align:center;color:var(--light-text);margin-bottom:24px">Answer a few questions and get a specific fastener recommendation in 30 seconds.</p>'+
+    '<div class="wizard" id="wizard"></div>'+
+    '<section class="faq-section" id="faq-section"><h2 style="font-size:1.25rem;margin-bottom:16px">Frequently Asked Questions</h2></section>';
+  renderWizardStep();
+  renderFAQ();
+}
+function renderWizardStep(){
+  const wiz = document.getElementById('wizard');
+  if(!wiz) return;
+  const s = wizardState.step;
+  const total = totalSteps();
+  const isResult = (skipStudQuestion() && s === 4) || (!skipStudQuestion() && s === 5);
+  if(isResult){
+    renderResult(wiz);
+    return;
+  }
+  const pct = ((s-1)/total)*100;
+  let html = '<div class="wizard-progress"><span>Step '+s+' of '+total+'</span><div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%"></div></div></div>';
+  if(s > 1){
+    html += '<button class="btn btn-secondary btn-sm" style="margin-bottom:16px" onclick="wizardBack()" aria-label="Go back">&larr; Back</button>';
+  }
+  html += '<div class="wizard-step">';
+  if(s === 1){
+    html += '<h2 class="step-title">What type of wall?</h2><div class="card-grid">';
+    wallTypes.forEach(w => {
+      html += radioCard(w.id, w.label, 'wallType', wizardState.wallType);
+    });
+    html += '</div>';
+  } else if(s === 2){
+    html += '<h2 class="step-title">What are you hanging?</h2><div class="card-grid">';
+    hangItems.forEach(w => {
+      html += radioCard(w.id, w.label, 'item', wizardState.item);
+    });
+    html += '</div>';
+  } else if(s === 3){
+    html += '<h2 class="step-title">Approximate weight?</h2><div class="card-grid">';
+    weightClasses.forEach(w => {
+      html += radioCard(w.id, w.label, 'weight', wizardState.weight);
+    });
+    html += '</div>';
+  } else if(s === 4){
+    html += '<h2 class="step-title">Can you hit a stud?</h2><div class="card-grid">';
+    studOptions.forEach(w => {
+      html += radioCard(w.id, w.label, 'stud', wizardState.stud);
+    });
+    html += '</div>';
+    html += '<div class="expandable"><button class="expand-toggle" onclick="toggleExpand(this)" aria-label="Show tip about finding studs"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M4 1l5 5-5 5z"/></svg> Not sure how to tell?</button><div class="expand-content"><div class="expand-inner">Knock on the wall. A hollow sound means no stud behind that spot. A solid thud means you\'ve found a stud. You can also use a $10 stud finder from any hardware store for a precise location.</div></div></div>';
+  }
+  html += '</div>';
+  wiz.innerHTML = html;
+}
+function radioCard(id, label, field, current){
+  const sel = current === id ? ' selected' : '';
+  return '<label class="radio-card'+sel+'" onclick="wizardSelect(\''+field+'\',\''+id+'\')"><input type="radio" name="'+field+'" value="'+id+'"'+(current===id?' checked':'')+' aria-label="'+label.replace(/"/g,'&quot;')+'">'+label+'</label>';
+}
+window.wizardSelect = function(field, value){
+  wizardState[field] = value;
+  // Auto-advance after short delay
+  setTimeout(function(){
+    if(wizardState.step === 3 && skipStudQuestion()){
+      wizardState.step = 4; // goes to result since skipStudQuestion
+    } else {
+      wizardState.step++;
+    }
+    renderWizardStep();
+  }, 200);
+};
+window.wizardBack = function(){
+  if(wizardState.step === 4 && skipStudQuestion()){
+    // came from step 3 directly to result
+    wizardState.step = 3;
+  } else {
+    wizardState.step--;
+  }
+  if(wizardState.step < 1) wizardState.step = 1;
+  renderWizardStep();
+};
+window.toggleExpand = function(btn){
+  btn.classList.toggle('open');
+  btn.nextElementSibling.classList.toggle('open');
+};
+window.startOver = function(){
+  renderHome();
+};
+// Anchor presets to reduce repetition
+var A={
+  nylon:['Self-Drilling Nylon Anchor (e.g., E-Z Ancor #8)','Self-drilling nylon drywall anchors','#8 screws (usually included)','Phillips screwdriver','E-Z+Ancor+self+drilling+nylon+drywall+anchor'],
+  metal:['Self-Drilling Zinc Metal Anchor','Self-drilling zinc metal drywall anchors','#8 screws (usually included)','Phillips screwdriver','self+drilling+zinc+metal+drywall+anchor'],
+  snap:['Snap Toggle Bolt (e.g., TOGGLER SnapToggle)','TOGGLER SnapToggle bolts (3/8\u2033)','1/2\u2033 drill bit','Screwdriver or socket wrench','TOGGLER+SnapToggle+drywall+anchor'],
+  snapMulti:['Multiple Snap Toggle Bolts (e.g., TOGGLER SnapToggle)','TOGGLER SnapToggle bolts (3/8\u2033) \u2014 quantity: 4+','1/2\u2033 drill bit','Socket wrench','TOGGLER+SnapToggle+drywall+anchor+heavy+duty']
+};
+var TV_NOTE='TV mounts experience leverage force \u2014 always use the strongest anchor your wall supports.';
+var PRO_WARN='Consider professional installation for safety when hanging very heavy items (75+ lbs).';
+function mk(anchor,reason,needs,steps,search){return{anchor:anchor,reason:reason,needs:needs,steps:steps,searchTerm:search,notes:[],warnings:[]}}
+function snapSteps(prefix){return[prefix+'Drill a 1/2\u2033 hole at each mounting point.','Insert the snap toggle channel through the hole.','Pull the straps tight until the toggle grips behind the wall.','Snap off the straps flush and drive the bolt through your bracket.']}
+function drywallNoStud(wt,item,prefix){
+  var r;
+  if(wt==='light'){
+    r=mk(A.nylon[0],'For light loads without a stud, self-drilling nylon anchors are easy to install and hold well.',[A.nylon[1],A.nylon[2],A.nylon[3]],[prefix+'Push the anchor tip into the wall.','Drive it in with a screwdriver \u2014 it cuts its own hole.','Drive the screw through your bracket into the anchor.','Tighten until snug; do not over-tighten.'],A.nylon[4]);
+  }else if(wt==='medium'){
+    r=mk(A.metal[0],'Metal anchors provide a stronger hold than nylon for medium-weight items.',[A.metal[1],A.metal[2],A.metal[3]],[prefix+'Push the anchor tip into the wall.','Drive it in by turning clockwise \u2014 it cuts its own hole.','Insert the screw through your mounting hardware.','Tighten until snug.'],A.metal[4]);
+  }else if(wt==='heavy'){
+    r=mk(A.snap[0],'Snap toggle bolts offer the highest weight capacity in hollow walls \u2014 up to 265 lbs per anchor.',[A.snap[1],A.snap[2],A.snap[3]],snapSteps(prefix),A.snap[4]);
+  }else{
+    r=mk(A.snapMulti[0],'For very heavy items, multiple snap toggle bolts spread the load. Each holds up to 265 lbs.',[A.snapMulti[1],A.snapMulti[2],A.snapMulti[3]],[prefix+'Space anchors at least 4\u2033 apart.','Drill 1/2\u2033 holes at each point.','Insert snap toggles and pull straps tight.','Snap off straps and drive bolts through your bracket.'],A.snapMulti[4]);
+    r.warnings.push(PRO_WARN);
+  }
+  if(item==='cabinet') r.notes.push('Cabinets should ideally be secured into wall studs. Use multiple heavy-duty anchors if no stud is available.');
+  return r;
+}
+function getRecommendation(state){
+  var w=state.wallType, item=state.item, wt=state.weight, stud=state.stud;
+  var isDrywall=(w==='drywall_standard'||w==='drywall_fire');
+  var isHeavyPlus=(wt==='heavy'||wt==='very_heavy');
+  var hasStud=(stud==='yes'), noStud=(stud==='no'||stud==='not_sure');
+  var rec;
+  // Smoke detector note (applies to any result)
+  function addSmoke(r){if(item==='smoke_detector')r.notes.push('Most smoke detectors and thermostats come with their own mounting hardware \u2014 check the box first.');return r;}
+  // Concrete / brick / stone
+  if(w==='concrete'){
+    if(wt==='light'){
+      rec=mk('Plastic Sleeve Anchor + Masonry Screw','For light loads on masonry, a plastic sleeve anchor provides a simple, reliable hold.',['Plastic sleeve anchors','Masonry screws (#8)','Carbide-tipped masonry drill bit'],['Mark your drill point.','Drill with a carbide masonry bit matching the anchor diameter.','Tap the sleeve anchor into the hole.','Drive the masonry screw through your bracket.'],'plastic+sleeve+anchor+masonry+screw');
+    }else if(wt==='medium'){
+      rec=mk('Tapcon Concrete Screw','Tapcon screws cut threads directly into concrete for a strong hold.',['Tapcon concrete screws (3/16\u2033 or 1/4\u2033)','Carbide masonry drill bit (size per Tapcon package)'],['Drill a pilot hole with the specified carbide bit.','Clear dust from the hole.','Drive the Tapcon through your bracket into the hole.','Stop when snug \u2014 do not over-tighten.'],'Tapcon+concrete+screw');
+    }else{
+      rec=mk('\u00bd\u2033 Sleeve Anchor or Wedge Anchor','For heavy loads on masonry, sleeve or wedge anchors provide industrial-strength holding power.',['1/2\u2033 sleeve or wedge anchors','Carbide masonry drill bit (1/2\u2033)','Socket wrench'],['Drill a 1/2\u2033 hole to required depth.','Clean the hole thoroughly.','Insert anchor through your bracket into the hole.','Tighten with a wrench until secure.'],'sleeve+anchor+wedge+anchor+concrete');
+    }
+    if(item==='tv_mount') rec.notes.push(TV_NOTE);
+    if(item==='cabinet'&&isHeavyPlus) rec.warnings.push('Heavy cabinets on masonry need multiple anchors. '+PRO_WARN);
+    return addSmoke(rec);
+  }
+  // Hollow-core door
+  if(w==='hollow_door'){
+    if(wt==='light'){
+      rec=mk('Hollow-Door Toggle Anchor','Hollow-door toggles spread the load behind the thin door skin for light items.',['Hollow-door toggle anchors','Drill bit matching anchor size'],['Drill a hole matching the toggle size.','Insert the toggle through the hole.','Pull snug against the inside of the door.','Drive the screw through your bracket.'],'hollow+door+toggle+anchor');
+    }else{
+      rec=mk('Over-Door Hook (recommended)','Hollow-core doors cannot reliably support more than about 10 lbs with anchors.',['Over-the-door hook rated for your weight'],['Choose an over-the-door hook rated for the weight.','Hang it over the top edge \u2014 no drilling needed.'],'over+the+door+hook+heavy+duty');
+      rec.warnings.push('Hollow doors can\'t support much weight \u2014 consider an over-door hook instead.');
+    }
+    return addSmoke(rec);
+  }
+  // Drywall with stud
+  if(isDrywall&&hasStud){
+    rec=mk('#8 or #10 Wood Screw (directly into stud)','No anchor needed \u2014 a wood screw into the stud gives the strongest possible hold.',['#8 or #10 wood screws (1.5\u2033+ to reach stud)','Drill or screwdriver','Optional: 1/8\u2033 pilot bit'],['Locate the stud center with a stud finder.','Mark your mounting points.','Pre-drill a pilot hole (recommended).','Drive the screw through your bracket into the stud.'],'wood+screw+%238+drywall+stud');
+    if(item==='tv_mount'){rec.notes.push('TV mounts experience leverage force \u2014 use lag bolts for the strongest hold.');rec.searchTerm='lag+bolt+TV+mount+stud';}
+    return addSmoke(rec);
+  }
+  // Drywall without stud
+  if(isDrywall&&noStud){
+    if(item==='tv_mount'){
+      rec=mk(A.snap[0],'TV mounts need maximum holding power. Snap toggles are the strongest option in hollow drywall.',['TOGGLER SnapToggle bolts (1/4\u2033 or 3/8\u2033)',A.snap[2],A.snap[3]],snapSteps(''),'TOGGLER+SnapToggle+drywall+anchor+TV+mount');
+      rec.notes.push(TV_NOTE+' Use multiple toggles per the mount instructions.');
+      if(wt==='very_heavy') rec.warnings.push('For very heavy TVs (75+ lbs) without studs, '+PRO_WARN.toLowerCase());
+      return addSmoke(rec);
+    }
+    rec=drywallNoStud(wt,item,'');
+    return addSmoke(rec);
+  }
+  // Plaster with stud
+  if(w==='plaster'&&hasStud){
+    rec=mk('Wood Screw into Stud (pre-drill to avoid cracking)','Pre-drilling through plaster prevents cracking and lets you reach the stud safely.',['#10 wood screws (2\u2033+ to reach stud)','1/8\u2033 pilot drill bit','Masking tape'],['Locate the stud. Place masking tape over the drill point.','Pre-drill a pilot hole through the plaster into the stud.','Drive the wood screw through your bracket into the stud.'],'wood+screw+%2310+plaster+wall+stud');
+    if(item==='tv_mount') rec.notes.push('TV mounts experience leverage force \u2014 use lag bolts into studs behind plaster.');
+    return addSmoke(rec);
+  }
+  // Plaster without stud
+  if(w==='plaster'&&noStud){
+    if(item==='tv_mount'){
+      rec=mk('Toggle Bolt (pre-drill through plaster)','Toggle bolts are the strongest option for plaster walls without a stud.',['Toggle bolts (3/8\u2033 or 1/2\u2033)','Drill bit matching toggle size','Masking tape'],['Apply masking tape to prevent chipping.','Drill slowly through the plaster.','Thread bolt through your bracket, push toggle through hole.','Pull tight and tighten the bolt.'],'toggle+bolt+plaster+wall+heavy+duty');
+      rec.notes.push(TV_NOTE);
+      return addSmoke(rec);
+    }
+    if(wt==='light'){
+      rec=mk('Self-Drilling Metal Anchor','A metal self-drilling anchor handles the harder plaster surface for light loads.',['Self-drilling zinc metal anchors','#8 screws','Phillips screwdriver'],['Mark your mounting point.','Drive the metal anchor in by turning clockwise.','Insert screw through your bracket.','Tighten until snug.'],'self+drilling+metal+anchor+plaster+wall');
+    }else if(wt==='medium'){
+      rec=mk('Molly Bolt or Toggle Bolt (pre-drill)','Molly or toggle bolts provide strong holding power in plaster. Pre-drilling prevents cracking.',['Molly bolts or toggle bolts','Drill bit matching bolt size','Masking tape'],['Apply masking tape, then drill a clean hole.','Insert the molly bolt and tighten to expand, or use a toggle bolt.','Tighten until secure.'],'molly+bolt+toggle+bolt+plaster+wall');
+    }else{
+      rec=mk('Toggle Bolt (pre-drill through plaster)','For heavy loads in plaster, toggle bolts offer the most reliable hold.',['Toggle bolts (3/8\u2033 or 1/2\u2033)','Drill bit matching toggle size','Masking tape'],['Apply masking tape at each drill point.','Drill through plaster slowly.','Thread bolt through bracket, push toggle through hole, pull tight.','Tighten securely.'],'toggle+bolt+plaster+wall+heavy+duty');
+      if(wt==='very_heavy') rec.warnings.push(PRO_WARN);
+    }
+    if(item==='cabinet'&&isHeavyPlus) rec.warnings.push('Heavy cabinets should be mounted into studs. Use multiple toggle bolts if unavailable.');
+    return addSmoke(rec);
+  }
+  // Tile over drywall
+  if(w==='tile'){
+    var tilePreSteps=['Apply masking tape on the tile (prevents bit from slipping).','Drill slowly through tile with carbide-tipped bit \u2014 no hammer mode.'];
+    if(hasStud){
+      rec=mk('Wood Screw into Stud (drill through tile first)','Drill through tile with a carbide bit, then screw into the stud for the strongest hold.',['#10 wood screws (long enough for tile + drywall + stud)','Carbide-tipped tile drill bit','Masking tape','Standard drill bit for pilot hole'],tilePreSteps.concat(['Switch to standard bit and drill pilot hole into stud.','Drive the wood screw through your bracket.']),'carbide+tile+drill+bit+wood+screw+stud');
+    }else{
+      var da,ds;
+      if(item==='tv_mount'){da=A.snap[0];ds='TOGGLER+SnapToggle+drywall+anchor+TV+mount';rec=mk(da+' (after drilling through tile)','Drill through tile first, then use snap toggles for maximum TV mount holding power.',['Carbide tile drill bit','Masking tape',A.snap[1],A.snap[3]],tilePreSteps.concat(['Install snap toggle through the drywall behind.','Mount bracket with provided bolt.']),'carbide+tile+drill+bit+'+ds);rec.notes.push(TV_NOTE);}
+      else{
+        if(wt==='light'){da=A.nylon[0];ds=A.nylon[4];}else if(wt==='medium'){da=A.metal[0];ds=A.metal[4];}else if(wt==='heavy'){da=A.snap[0];ds=A.snap[4];}else{da=A.snapMulti[0];ds=A.snapMulti[4];rec=mk(da+' (after drilling through tile)','Drill through tile first, then use the appropriate drywall anchor.',['Carbide tile drill bit','Masking tape',da,'Screws (check package)'],tilePreSteps.concat(['Install the drywall anchor behind the tile.','Mount your bracket.']),'carbide+tile+drill+bit+'+ds);rec.warnings.push(PRO_WARN);if(item==='cabinet'&&isHeavyPlus)rec.warnings.push('Mount heavy cabinets into studs behind tile when possible.');return addSmoke(rec);}
+        rec=mk(da+' (after drilling through tile)','Drill through tile first, then use the appropriate drywall anchor.',['Carbide tile drill bit','Masking tape',da,'Screws (check package)'],tilePreSteps.concat(['Install the drywall anchor behind the tile.','Mount your bracket.']),'carbide+tile+drill+bit+'+ds);
+      }
+    }
+    if(item==='cabinet'&&noStud&&isHeavyPlus) rec.warnings.push('Mount heavy cabinets into studs behind tile when possible.');
+    return addSmoke(rec);
+  }
+  // Wood paneling
+  if(w==='wood_panel'){
+    if(hasStud){
+      rec=mk('Wood Screw into Stud (through paneling)','A screw through the thin paneling into the stud gives the strongest hold.',['#10 wood screws (reach through paneling into stud)','Drill or screwdriver','1/8\u2033 pilot bit'],['Locate the stud behind the paneling.','Pre-drill a pilot hole through paneling into stud.','Drive wood screw through your bracket.','Tighten until snug.'],'wood+screw+%2310+paneling+stud');
+      if(item==='tv_mount') rec.notes.push('TV mounts experience leverage force \u2014 use lag bolts into studs behind paneling.');
+    }else{
+      if(item==='tv_mount'){
+        rec=mk(A.snap[0],'Through paneling into the drywall behind, snap toggles provide the strongest hold for TV mounts.',[A.snap[1],A.snap[2],A.snap[3]],snapSteps('Drill through paneling and drywall. '),'TOGGLER+SnapToggle+drywall+anchor+TV+mount');
+        rec.notes.push(TV_NOTE);
+      }else{
+        rec=drywallNoStud(wt,item,'Through paneling: ');
+      }
+      rec.notes.push('Paneling is usually over drywall, so drywall anchors work well here.');
+    }
+    if(item==='cabinet'&&noStud&&isHeavyPlus) rec.warnings.push('Secure heavy cabinets into wall studs. '+PRO_WARN);
+    return addSmoke(rec);
+  }
+  // Fallback
+  rec=mk('General-Purpose Drywall Anchor','A general-purpose anchor should work for your situation.',['Drywall anchor kit','Appropriate screws','Drill'],['Follow the anchor package instructions.','Pre-drill if required.','Install the anchor, then drive the screw.'],'drywall+anchor+kit');
+  return addSmoke(rec);
+}
+function renderResult(container){
+  const rec = getRecommendation(wizardState);
+  const wallLabel = wallTypes.find(w=>w.id===wizardState.wallType)?.label || wizardState.wallType;
+  const itemLabel = hangItems.find(w=>w.id===wizardState.item)?.label || wizardState.item;
+  const weightLabel = weightClasses.find(w=>w.id===wizardState.weight)?.label || wizardState.weight;
+  const amazonUrl = 'https://www.amazon.com/s?k='+encodeURIComponent(rec.searchTerm.replace(/\+/g,' '))+'&tag='+AMAZON_TAG;
+  const hdUrl = 'https://www.homedepot.com/s/'+encodeURIComponent(rec.searchTerm.replace(/\+/g,' '));
+  let html = '<div class="wizard-step">';
+  html += '<button class="btn btn-secondary btn-sm" style="margin-bottom:16px" onclick="wizardBack()" aria-label="Go back">&larr; Back</button>';
+  html += '<div class="result-card">';
+  html += '<h2>'+rec.anchor+'</h2>';
+  html += '<p class="result-reason">For hanging a '+itemLabel.toLowerCase()+' on '+wallLabel.toLowerCase()+(wizardState.stud==='yes'?' with stud support':wizardState.stud?' without stud support':'')+' ('+weightLabel.toLowerCase()+'):</p>';
+  html += '<p class="result-reason">'+rec.reason+'</p>';
+  html += '<div class="result-section"><h3>What You\'ll Need</h3><ul>';
+  rec.needs.forEach(function(n){ html += '<li>'+n+'</li>'; });
+  html += '</ul></div>';
+  html += '<div class="result-section"><h3>Installation Steps</h3><ol>';
+  rec.steps.forEach(function(s){ html += '<li>'+s+'</li>'; });
+  html += '</ol></div>';
+  rec.notes.forEach(function(n){
+    html += '<div class="result-note">'+n+'</div>';
+  });
+  rec.warnings.forEach(function(w){
+    html += '<div class="result-warning">&#9888; '+w+'</div>';
+  });
+  html += '<div class="buy-links">';
+  html += '<a href="'+amazonUrl+'" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Buy on Amazon">Buy on Amazon</a>';
+  html += '<!-- TODO: Replace with Impact Radius affiliated links when account is set up -->';
+  html += '<a href="'+hdUrl+'" target="_blank" rel="noopener" class="btn btn-secondary" aria-label="Buy at Home Depot">Buy at Home Depot</a>';
+  html += '</div>';
+  html += '<p class="affiliate-note">Product links are affiliate links \u2014 we may earn a small commission at no extra cost to you.</p>';
+  html += '</div>';
+  html += '<div style="text-align:center;margin-top:16px"><button class="btn btn-primary" onclick="startOver()">Start Over</button></div>';
+  html += '</div>';
+  container.innerHTML = html;
+}
+function renderFAQ(){
+  const faqSection = document.getElementById('faq-section');
+  if(!faqSection) return;
+  const faqs = [
+    {q:'How much weight can drywall hold without an anchor?', a:'About 5\u201310 lbs with a nail alone. A small picture frame on a nail is fine, but anything heavier needs a proper anchor or \u2014 even better \u2014 a screw driven into a wall stud.'},
+    {q:'What\u2019s the difference between a toggle bolt and a molly bolt?', a:'Toggle bolts use spring-loaded wings that open behind the wall and grip a large area \u2014 they\u2019re the strongest option for hollow walls. Molly bolts use a metal sleeve that expands as you tighten the screw. They\u2019re medium strength but have the advantage of being reusable: you can remove and reinsert the screw without losing the anchor.'},
+    {q:'Can I use plastic anchors for a TV mount?', a:'No. TVs create significant leverage force because the weight sits far from the wall. Plastic anchors can pull out under that load. Use snap toggle bolts rated for the weight, or better yet, mount directly into wall studs with lag bolts.'},
+    {q:'How do I know what kind of wall I have?', a:'Knock on the wall: a hollow sound usually means drywall, while a harder, more solid sound suggests plaster or masonry. Homes built before 1950 often have plaster and lath walls. If you see exposed brick or concrete (common in basements), that\u2019s masonry. You can also push a thumbtack into the surface \u2014 it slides into drywall easily but won\u2019t penetrate plaster or concrete.'},
+    {q:'What size drill bit do I need for a drywall anchor?', a:'Check the anchor packaging \u2014 it almost always lists the recommended drill bit size. As a general rule, the bit should match the diameter of the anchor body (not the screw). For self-drilling anchors, no pre-drilling is needed at all \u2014 they cut their own hole.'}
+  ];
+  let html = '<h2 style="font-size:1.25rem;margin-bottom:16px">Frequently Asked Questions</h2>';
+  faqs.forEach(function(faq, i){
+    html += '<div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">';
+    html += '<button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false" aria-label="'+faq.q.replace(/"/g,'&quot;')+'">';
+    html += '<span itemprop="name">'+faq.q+'</span>';
+    html += '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4,6 8,10 12,6"/></svg>';
+    html += '</button>';
+    html += '<div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">';
+    html += '<p itemprop="text">'+faq.a+'</p>';
+    html += '</div></div>';
+  });
+  faqSection.innerHTML = html;
+}
+window.toggleFaq = function(btn){
+  const isOpen = btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  btn.nextElementSibling.classList.toggle('open');
+};
+function renderReviews(){
+  app.innerHTML = '<h1 style="font-size:1.5rem;margin-bottom:24px">User Reviews</h1>'+
+    '<div class="reviews-header" id="reviews-header"><div class="loading">Loading reviews...</div></div>'+
+    '<div class="review-list" id="review-list"></div>'+
+    '<div class="review-form" id="review-form">'+
+    '<h3>Leave a Review</h3>'+
+    '<div class="form-group"><label for="rev-name">Nickname</label><input type="text" id="rev-name" maxlength="30" placeholder="Your name" required></div>'+
+    '<div class="form-group"><label>Rating</label><div class="star-selector" id="star-selector" role="radiogroup" aria-label="Rating">'+
+    '<span class="star" data-val="1" role="radio" aria-label="1 star" tabindex="0">&#9733;</span>'+
+    '<span class="star" data-val="2" role="radio" aria-label="2 stars" tabindex="0">&#9733;</span>'+
+    '<span class="star" data-val="3" role="radio" aria-label="3 stars" tabindex="0">&#9733;</span>'+
+    '<span class="star" data-val="4" role="radio" aria-label="4 stars" tabindex="0">&#9733;</span>'+
+    '<span class="star" data-val="5" role="radio" aria-label="5 stars" tabindex="0">&#9733;</span>'+
+    '</div></div>'+
+    '<div class="form-group"><label for="rev-comment">Comment <span style="font-weight:400;color:var(--light-text)">(optional)</span></label><textarea id="rev-comment" maxlength="500" placeholder="How was your experience? (optional)"></textarea></div>'+
+    '<button class="btn btn-primary" onclick="submitReview()" aria-label="Submit review">Submit Review</button>'+
+    '<div id="form-msg"></div>'+
+    '</div>';
+  initStarSelector();
+  fetchReviews();
+}
+let selectedRating = 0;
+function initStarSelector(){
+  const sel = document.getElementById('star-selector');
+  if(!sel) return;
+  const stars = sel.querySelectorAll('.star');
+  sel.addEventListener('mouseover', function(e){
+    const star = e.target.closest('.star');
+    if(!star) return;
+    const val = parseInt(star.dataset.val);
+    stars.forEach(function(s){
+      s.classList.toggle('hovered', parseInt(s.dataset.val) <= val);
+    });
+  });
+  sel.addEventListener('mouseout', function(){
+    stars.forEach(function(s){ s.classList.remove('hovered'); });
+  });
+  sel.addEventListener('click', function(e){
+    const star = e.target.closest('.star');
+    if(!star) return;
+    selectedRating = parseInt(star.dataset.val);
+    stars.forEach(function(s){
+      s.classList.toggle('selected', parseInt(s.dataset.val) <= selectedRating);
+    });
+  });
+  sel.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      const star = e.target.closest('.star');
+      if(star) star.click();
+    }
+  });
+}
+function fetchReviews(){
+  fetch(WORKER_URL+'/api/reviews')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      renderReviewsHeader(data);
+      renderReviewList(data.reviews || []);
+    })
+    .catch(function(){
+      document.getElementById('reviews-header').innerHTML = '';
+      document.getElementById('review-list').innerHTML = '<div class="empty-state">Could not load reviews. Please try again later.</div>';
+    });
+}
+function renderReviewsHeader(data){
+  const avg = data.average ? parseFloat(data.average).toFixed(1) : '0.0';
+  const count = data.count || 0;
+  const hdr = document.getElementById('reviews-header');
+  if(!hdr) return;
+  hdr.innerHTML = '<div class="avg-rating">'+avg+'</div>'+
+    '<div class="stars-display" aria-label="'+avg+' out of 5 stars">'+starsHTML(Math.round(parseFloat(avg)))+'</div>'+
+    '<div class="review-count">'+count+' review'+(count!==1?'s':'')+'</div>';
+}
+function starsHTML(filled){
+  let s = '';
+  for(let i=1;i<=5;i++) s += i<=filled ? '\u2605' : '\u2606';
+  return s;
+}
+function renderReviewList(reviews){
+  const list = document.getElementById('review-list');
+  if(!list) return;
+  if(!reviews.length){
+    list.innerHTML = '<div class="empty-state">No reviews yet \u2014 be the first!</div>';
+    return;
+  }
+  list.innerHTML = reviews.map(function(r){
+    return '<article class="review-card">'+
+      '<div class="stars" aria-label="'+r.rating+' out of 5 stars">'+starsHTML(r.rating)+'</div>'+
+      '<div class="nickname">'+escapeHTML(r.nickname)+'</div>'+
+      (r.comment ? '<div class="comment">'+escapeHTML(r.comment)+'</div>' : '')+
+      '<div class="time">'+relativeTime(r.created_at)+'</div>'+
+      '</article>';
+  }).join('');
+}
+function escapeHTML(str){
+  var d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+function relativeTime(dateStr){
+  if(!dateStr) return '';
+  var now = new Date();
+  var then = new Date(dateStr+'Z');
+  var diff = Math.floor((now - then) / 1000);
+  if(diff < 60) return 'just now';
+  if(diff < 3600) return Math.floor(diff/60)+' minute'+(Math.floor(diff/60)>1?'s':'')+' ago';
+  if(diff < 86400) return Math.floor(diff/3600)+' hour'+(Math.floor(diff/3600)>1?'s':'')+' ago';
+  if(diff < 2592000) return Math.floor(diff/86400)+' day'+(Math.floor(diff/86400)>1?'s':'')+' ago';
+  return Math.floor(diff/2592000)+' month'+(Math.floor(diff/2592000)>1?'s':'')+' ago';
+}
+window.submitReview = function(){
+  var name = document.getElementById('rev-name').value.trim();
+  var comment = document.getElementById('rev-comment').value.trim();
+  var msgEl = document.getElementById('form-msg');
+  if(!name){
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Please enter your nickname.';
+    return;
+  }
+  if(name.length > 30){
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Nickname must be 30 characters or fewer.';
+    return;
+  }
+  if(!selectedRating){
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Please select a star rating.';
+    return;
+  }
+  if(comment.length > 500){
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Comment must be 500 characters or fewer.';
+    return;
+  }
+  msgEl.className = 'form-msg';
+  msgEl.textContent = 'Submitting...';
+  fetch(WORKER_URL+'/api/review',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nickname:name, rating:selectedRating, comment:comment})
+  }).then(function(r){
+    if(!r.ok) throw new Error('Failed');
+    msgEl.className = 'form-msg success';
+    msgEl.textContent = 'Thank you for your review!';
+    document.getElementById('rev-name').value = '';
+    document.getElementById('rev-comment').value = '';
+    selectedRating = 0;
+    document.querySelectorAll('#star-selector .star').forEach(function(s){ s.classList.remove('selected'); });
+    fetchReviews();
+  }).catch(function(){
+    msgEl.className = 'form-msg error';
+    msgEl.textContent = 'Could not submit review. You may have reached the rate limit (3 reviews per hour). Please try again later.';
+  });
+};
+function renderAbout(){
+  app.innerHTML =
+    '<h1 style="font-size:1.5rem;margin-bottom:24px">About HangRight</h1>'+
+    '<section class="about-section"><h2>What is HangRight?</h2><p>A free tool that helps you pick the right wall anchor in 30 seconds. No more staring at the hardware aisle wondering which of the 47 different anchors on the shelf is the one you need.</p></section>'+
+    '<section class="about-section"><h2>How It Works</h2><p>Answer 4 simple questions \u2014 your wall type, what you\u2019re hanging, the approximate weight, and whether you can hit a stud \u2014 and get a specific product recommendation with buy links. That\u2019s it.</p></section>'+
+    '<section class="about-section"><h2>Who Built This?</h2><p>Built by a DIY enthusiast tired of pulling anchors out of crumbled drywall. After one too many failed attempts at hanging a heavy mirror, this tool was born.</p></section>'+
+    '<section class="about-section"><h2>Affiliate Disclosure</h2><p>HangRight is 100% free. Product links are affiliate links, meaning we may earn a small commission at no extra cost to you. This helps keep the site running.</p></section>'+
+    '<section class="about-section"><h2>Disclaimer</h2><p>HangRight provides general guidance for common household hanging projects. For structural, safety-critical, or load-bearing installations, consult a licensed contractor.</p></section>';
+}
+function renderStats(){
+  app.innerHTML = '<h1 style="font-size:1.5rem;margin-bottom:24px">Visitor Statistics</h1><div class="loading" id="stats-loading">Loading stats...</div><div id="stats-content" style="display:none"></div>';
+  fetch(WORKER_URL+'/api/stats')
+    .then(function(r){ return r.json(); })
+    .then(function(data){ renderStatsData(data); })
+    .catch(function(){
+      document.getElementById('stats-loading').textContent = 'Could not load stats. Please try again later.';
+    });
+}
+function renderStatsData(data){
+  document.getElementById('stats-loading').style.display = 'none';
+  var c = document.getElementById('stats-content');
+  c.style.display = 'block';
+  var total = data.total || 0;
+  var perDay = data.per_day || [];
+  var referrers = data.top_referrers || [];
+  var countries = data.top_countries || [];
+  var html = '<div class="stats-grid"><div class="stat-card"><div class="stat-num">'+total.toLocaleString()+'</div><div class="stat-label">Total Page Views</div></div></div>';
+  // Chart: views per day
+  if(perDay.length){
+    html += '<div class="chart-container"><h3>Views Per Day (Last 30 Days)</h3>'+buildLineChart(perDay)+'</div>';
+  }
+  // Top referrers
+  if(referrers.length){
+    var maxRef = referrers[0].count || 1;
+    html += '<div class="chart-container"><h3>Top Referrers</h3><ul class="ranked-list">';
+    referrers.slice(0,5).forEach(function(r){
+      var label = r.referrer || '(direct)';
+      html += '<li><span style="min-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escapeHTML(label)+'</span><div class="rank-bar"><div class="rank-fill" style="width:'+Math.round((r.count/maxRef)*100)+'%"></div></div><span class="rank-count">'+r.count+'</span></li>';
+    });
+    html += '</ul></div>';
+  }
+  // Top countries
+  if(countries.length){
+    var maxCt = countries[0].count || 1;
+    function countryFlag(code){try{return String.fromCodePoint(...[...code.toUpperCase()].map(c=>0x1F1E6-65+c.charCodeAt(0)))}catch(e){return'\ud83c\udff3\ufe0f'}}
+    html += '<div class="chart-container"><h3>Top Countries</h3><ul class="ranked-list">';
+    countries.slice(0,5).forEach(function(ct){
+      var code = ct.country || '??';
+      var flag = countryFlag(code);
+      html += '<li><span style="min-width:100px">'+flag+' '+escapeHTML(code)+'</span><div class="rank-bar"><div class="rank-fill" style="width:'+Math.round((ct.count/maxCt)*100)+'%"></div></div><span class="rank-count">'+ct.count+'</span></li>';
+    });
+    html += '</ul></div>';
+  }
+  c.innerHTML = html;
+}
+function buildLineChart(perDay){
+  // Build inline SVG line chart
+  var W = 600, H = 200, pad = 40;
+  var maxVal = 1;
+  perDay.forEach(function(d){ if(d.count > maxVal) maxVal = d.count; });
+  var n = perDay.length;
+  if(n < 2) n = 2;
+  var stepX = (W - pad*2) / (n - 1 || 1);
+  var points = [];
+  var labels = '';
+  perDay.forEach(function(d, i){
+    var x = pad + i * stepX;
+    var y = H - pad - ((d.count / maxVal) * (H - pad*2));
+    points.push(x+','+y);
+    // Add data dots
+    labels += '<circle cx="'+x+'" cy="'+y+'" r="3" fill="#E8713A"/>';
+    // X-axis labels (show every ~5th)
+    if(i % Math.ceil(n/6) === 0 || i === n-1){
+      var dateLabel = d.date ? d.date.slice(5) : '';
+      labels += '<text x="'+x+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="#636E72">'+dateLabel+'</text>';
+    }
+  });
+  // Y-axis labels
+  labels += '<text x="'+(pad-8)+'" y="'+(pad)+'" text-anchor="end" font-size="10" fill="#636E72">'+maxVal+'</text>';
+  labels += '<text x="'+(pad-8)+'" y="'+(H-pad)+'" text-anchor="end" font-size="10" fill="#636E72">0</text>';
+  var svg = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Views per day chart">';
+  // Grid lines
+  svg += '<line x1="'+pad+'" y1="'+pad+'" x2="'+pad+'" y2="'+(H-pad)+'" stroke="#E0E0E0" stroke-width="1"/>';
+  svg += '<line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+(W-pad)+'" y2="'+(H-pad)+'" stroke="#E0E0E0" stroke-width="1"/>';
+  // Line
+  svg += '<polyline points="'+points.join(' ')+'" fill="none" stroke="#E8713A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+  // Area fill
+  if(points.length){
+    var areaPoints = points.join(' ')+' '+(pad+(n-1)*stepX)+','+(H-pad)+' '+pad+','+(H-pad);
+    svg += '<polygon points="'+areaPoints+'" fill="rgba(232,113,58,0.1)"/>';
+  }
+  svg += labels;
+  svg += '</svg>';
+  return svg;
+}
+})();
+</script>
+</body>
+</html>
