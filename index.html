@@ -70,6 +70,13 @@ main{flex:1;max-width:960px;margin:0 auto;padding:24px 16px;width:100%}
 .result-section h3{font-size:1rem;font-weight:700;margin-bottom:8px}
 .result-section ul,.result-section ol{padding-left:20px}
 .result-section li{margin-bottom:4px}
+.result-section ul li{margin-bottom:6px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px}
+.item-buy-links{display:inline-flex;gap:4px;flex-shrink:0}
+.item-buy-links a{font-size:.7rem;font-weight:600;padding:2px 6px;border-radius:4px;text-decoration:none;white-space:nowrap;line-height:1.4;vertical-align:middle}
+.item-buy-links .link-amazon{background:#232F3E;color:#FF9900;border:1px solid #FF9900}
+.item-buy-links .link-amazon:hover{background:#1a2430;color:#FFB84D}
+.item-buy-links .link-hd{background:#F96302;color:#fff;border:1px solid #F96302}
+.item-buy-links .link-hd:hover{background:#e05800;color:#fff}
 .buy-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
 .buy-links a{flex:1;min-width:140px;text-align:center}
 .btn-amazon{background:#232F3E;color:#FF9900;border:2px solid #FF9900}
@@ -336,6 +343,42 @@ var A={
 var TV_NOTE='TV mounts experience leverage force \u2014 always use the strongest anchor your wall supports.';
 var PRO_WARN='Consider professional installation for safety when hanging very heavy items (75+ lbs).';
 function mk(anchor,reason,needs,steps,search){return{anchor:anchor,reason:reason,needs:needs,steps:steps,searchTerm:search,notes:[],warnings:[]}}
+function needSearchTerm(text){
+  // Clean up text: remove parenthetical notes like "(usually included)", "(check package)", sizing notes
+  var t=text.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s*\u2014.*$/,'').trim();
+  // Map common unicode fractions and symbols
+  t=t.replace(/\u00bd/g,'1/2').replace(/\u2153/g,'1/3').replace(/\u00bc/g,'1/4').replace(/\u00be/g,'3/4').replace(/\u215c/g,'3/8').replace(/\u2033/g,' inch').replace(/\u2032/g,' inch').replace(/\u2033/g,' inch');
+  // Map specific items to better search terms
+  var maps=[
+    [/^TOGGLER SnapToggle bolts?/i,'TOGGLER SnapToggle drywall anchor'],
+    [/^Self-drilling nylon drywall anchors?$/i,'E-Z Ancor self drilling nylon drywall anchor'],
+    [/^Self-drilling zinc metal (drywall )?anchors?$/i,'self drilling zinc metal drywall anchor'],
+    [/^Plastic sleeve anchors?$/i,'plastic sleeve anchor masonry'],
+    [/^Masonry screws?/i,'masonry screws'],
+    [/^Tapcon concrete screws?/i,'Tapcon concrete screw'],
+    [/^Molly bolt/i,'molly bolt drywall anchor'],
+    [/^Toggle bolt/i,'toggle bolt drywall anchor'],
+    [/^Carbide.*tile drill bit$/i,'carbide tipped tile drill bit'],
+    [/^Carbide.*masonry drill bit$/i,'carbide tipped masonry drill bit'],
+    [/^Hollow-door toggle anchors?$/i,'hollow door toggle anchor'],
+    [/^Over-the-door hook/i,'over the door hook heavy duty'],
+    [/^Socket wrench$/i,'socket wrench set'],
+    [/^Phillips screwdriver$/i,'Phillips screwdriver'],
+    [/^Masking tape$/i,'masking tape'],
+    [/^Drill or screwdriver$/i,'cordless drill driver'],
+    [/^Drill$/i,'cordless drill']
+  ];
+  for(var i=0;i<maps.length;i++){if(maps[i][0].test(t))return maps[i][1];}
+  // For drill bits, clean up fractions for search
+  if(/drill bit/i.test(t)){
+    t=t.replace(/\u00bd/g,'1/2').replace(/\u00bc/g,'1/4').replace(/\u00be/g,'3/4');
+    t=t.replace(/\u215c/g,'3/8');
+    return t.replace(/#(\d)/,'number $1')+' drill bit';
+  }
+  // For screws, make more searchable
+  if(/screw/i.test(t)){return t;}
+  return t;
+}
 function snapSteps(prefix){return[prefix+'Drill a 1/2\u2033 hole at each mounting point.','Insert the snap toggle channel through the hole.','Pull the straps tight until the toggle grips behind the wall.','Snap off the straps flush and drive the bolt through your bracket.']}
 function drywallNoStud(wt,item,prefix){
   var r;
@@ -475,7 +518,16 @@ function renderResult(container){
   html += '<p class="result-reason">For hanging a '+itemLabel.toLowerCase()+' on '+wallLabel.toLowerCase()+(wizardState.stud==='yes'?' with stud support':wizardState.stud?' without stud support':'')+' ('+weightLabel.toLowerCase()+'):</p>';
   html += '<p class="result-reason">'+rec.reason+'</p>';
   html += '<div class="result-section"><h3>What You\'ll Need</h3><ul>';
-  rec.needs.forEach(function(n){ html += '<li>'+n+'</li>'; });
+  rec.needs.forEach(function(n){
+    var text = (typeof n === 'object') ? n.text : n;
+    var search = (typeof n === 'object' && n.searchTerm) ? n.searchTerm : needSearchTerm(text);
+    var aUrl = 'https://www.amazon.com/s?k='+encodeURIComponent(search)+'&tag='+AMAZON_TAG;
+    var hUrl = 'https://www.homedepot.com/s/'+encodeURIComponent(search);
+    html += '<li><span>'+text+'</span> <span class="item-buy-links">';
+    html += '<a href="'+aUrl+'" target="_blank" rel="noopener" class="link-amazon" aria-label="Buy '+text+' on Amazon">Amazon</a>';
+    html += '<a href="'+hUrl+'" target="_blank" rel="noopener" class="link-hd" aria-label="Buy '+text+' at Home Depot">HD</a>';
+    html += '</span></li>';
+  });
   html += '</ul></div>';
   html += '<div class="result-section"><h3>Installation Steps</h3><ol>';
   rec.steps.forEach(function(s){ html += '<li>'+s+'</li>'; });
