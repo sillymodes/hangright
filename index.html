@@ -584,8 +584,8 @@ function fetchReviews(){
     });
 }
 function renderReviewsHeader(data){
-  const avg = data.average ? parseFloat(data.average).toFixed(1) : '0.0';
-  const count = data.count || 0;
+  const avg = data.average_rating ? parseFloat(data.average_rating).toFixed(1) : '0.0';
+  const count = data.total || 0;
   const hdr = document.getElementById('reviews-header');
   if(!hdr) return;
   hdr.innerHTML = '<div class="avg-rating">'+avg+'</div>'+
@@ -695,8 +695,8 @@ function renderStatsData(data){
   document.getElementById('stats-loading').style.display = 'none';
   var c = document.getElementById('stats-content');
   c.style.display = 'block';
-  var total = data.total || 0;
-  var perDay = data.per_day || [];
+  var total = data.total_views || 0;
+  var perDay = data.views_per_day || [];
   var referrers = data.top_referrers || [];
   var countries = data.top_countries || [];
   var html = '<div class="stats-grid"><div class="stat-card"><div class="stat-num">'+total.toLocaleString()+'</div><div class="stat-label">Total Page Views</div></div></div>';
@@ -732,7 +732,7 @@ function buildLineChart(perDay){
   // Build inline SVG line chart
   var W = 600, H = 200, pad = 40;
   var maxVal = 1;
-  perDay.forEach(function(d){ if(d.count > maxVal) maxVal = d.count; });
+  perDay.forEach(function(d){ if(d.views > maxVal) maxVal = d.views; });
   var n = perDay.length;
   if(n < 2) n = 2;
   var stepX = (W - pad*2) / (n - 1 || 1);
@@ -740,13 +740,13 @@ function buildLineChart(perDay){
   var labels = '';
   perDay.forEach(function(d, i){
     var x = pad + i * stepX;
-    var y = H - pad - ((d.count / maxVal) * (H - pad*2));
+    var y = H - pad - ((d.views / maxVal) * (H - pad*2));
     points.push(x+','+y);
     // Add data dots
     labels += '<circle cx="'+x+'" cy="'+y+'" r="3" fill="#E8713A"/>';
     // X-axis labels (show every ~5th)
     if(i % Math.ceil(n/6) === 0 || i === n-1){
-      var dateLabel = d.date ? d.date.slice(5) : '';
+      var dateLabel = d.day ? d.day.slice(5) : '';
       labels += '<text x="'+x+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="#636E72">'+dateLabel+'</text>';
     }
   });
