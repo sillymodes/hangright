@@ -72,6 +72,10 @@ main{flex:1;max-width:960px;margin:0 auto;padding:24px 16px;width:100%}
 .result-section li{margin-bottom:4px}
 .buy-links{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
 .buy-links a{flex:1;min-width:140px;text-align:center}
+.btn-amazon{background:#232F3E;color:#FF9900;border:2px solid #FF9900}
+.btn-amazon:hover{background:#1a2430;color:#FFB84D}
+.btn-hd{background:#F96302;color:#fff;border:2px solid #F96302}
+.btn-hd:hover{background:#e05800;color:#fff}
 .result-note{background:rgba(243,156,18,0.1);border-left:3px solid var(--warning);padding:12px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.9rem}
 .result-warning{background:rgba(231,76,60,0.1);border-left:3px solid #E74C3C;padding:12px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.9rem}
 .affiliate-note{font-size:.8rem;color:var(--light-text);margin-top:16px;font-style:italic}
@@ -483,9 +487,9 @@ function renderResult(container){
     html += '<div class="result-warning">&#9888; '+w+'</div>';
   });
   html += '<div class="buy-links">';
-  html += '<a href="'+amazonUrl+'" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Buy on Amazon">Buy on Amazon</a>';
+  html += '<a href="'+amazonUrl+'" target="_blank" rel="noopener" class="btn btn-amazon" aria-label="Buy on Amazon">Buy on Amazon</a>';
   html += '<!-- TODO: Replace with Impact Radius affiliated links when account is set up -->';
-  html += '<a href="'+hdUrl+'" target="_blank" rel="noopener" class="btn btn-secondary" aria-label="Buy at Home Depot">Buy at Home Depot</a>';
+  html += '<a href="'+hdUrl+'" target="_blank" rel="noopener" class="btn btn-hd" aria-label="Buy at Home Depot">Buy at Home Depot</a>';
   html += '</div>';
   html += '<p class="affiliate-note">Product links are affiliate links \u2014 we may earn a small commission at no extra cost to you.</p>';
   html += '</div>';
