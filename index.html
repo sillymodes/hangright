@@ -538,11 +538,7 @@ function renderResult(container){
   rec.warnings.forEach(function(w){
     html += '<div class="result-warning">&#9888; '+w+'</div>';
   });
-  html += '<div class="buy-links">';
-  html += '<a href="'+amazonUrl+'" target="_blank" rel="noopener" class="btn btn-amazon" aria-label="Buy on Amazon">Buy on Amazon</a>';
   html += '<!-- TODO: Replace with Impact Radius affiliated links when account is set up -->';
-  html += '<a href="'+hdUrl+'" target="_blank" rel="noopener" class="btn btn-hd" aria-label="Buy at Home Depot">Buy at Home Depot</a>';
-  html += '</div>';
   html += '<p class="affiliate-note">Product links are affiliate links \u2014 we may earn a small commission at no extra cost to you.</p>';
   html += '</div>';
   html += '<div style="text-align:center;margin-top:16px"><button class="btn btn-primary" onclick="startOver()">Start Over</button></div>';
